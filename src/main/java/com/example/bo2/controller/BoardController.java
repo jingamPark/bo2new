@@ -1,6 +1,7 @@
 package com.example.bo2.controller;
 
 
+import com.example.bo2.dto.BoardDTO;
 import com.example.bo2.entity.Board;
 import com.example.bo2.service.BoardService;
 import lombok.Getter;
@@ -28,9 +29,9 @@ public class BoardController {
 
     }
     @PostMapping("/register")
-    public String registerPost(Board board){
+    public String registerPost(BoardDTO boardDTO){
 
-        boardService.register(board);
+        boardService.register(boardDTO);
 
         return "redirect:list";
     }

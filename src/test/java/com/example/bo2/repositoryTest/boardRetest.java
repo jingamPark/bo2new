@@ -43,7 +43,7 @@ public class boardRetest {
         String[] strs  = {"t", "c"};
 
         String keyword = "용3";
-        Pageable pageable = PageRequest.of(3, 7, Sort.by("bno").descending());
+        Pageable pageable = PageRequest.of(0, 7, Sort.by("bno").descending());
 
         Page<Board> boardPage =  boardRepository.searchAll(strs, keyword, pageable);
 
@@ -56,10 +56,9 @@ public class boardRetest {
         System.out.println("시작페이지 " + boardPage.isFirst());
         System.out.println("다음페이지 " + boardPage.hasNext());
 
-
-
-
     }
+
+
 
 
 }

@@ -53,6 +53,9 @@ dependencies {
             "com.querydsl:querydsl-apt:${queryDslVersion}:jakarta")
 
 
+    implementation 'org.modelmapper:modelmapper:3.1.0'
+
+
 
 
 }
