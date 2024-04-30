@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout1.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div layout:fragment="content">
+    등록
+
+    <form action="/board/register" method="post">
+        글제목 <input  name="title">
+        내용 <textarea name="content"></textarea>
+        작성자 <input name="writer">
+        <input value="전송" type="submit">
+    </form>
+</div>
+</body>
+</html>
