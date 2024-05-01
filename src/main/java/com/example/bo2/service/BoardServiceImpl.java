@@ -41,13 +41,33 @@ public class BoardServiceImpl implements BoardService{
         Optional<Board> board
                 = boardRepository.findById(bno);
 
+        //log.info("값확인 " + board.isEmpty());
+
+        if(board.isEmpty()){
+            return null;
+        }
+
         BoardDTO boardDTO = modelMapper.map(board.get(), BoardDTO.class);
 
         return boardDTO;
     }
+
+
+
     @Override
-    public void modify(Board board) {
+    public void modify(BoardDTO boardDTO) {
+
+        Optional<Board> result = boardRepository.findById(boardDTO.getBno());
+
+        Board board = result.orElseThrow();
+
+        board.chang(boardDTO.getTitle(), boardDTO.getContent());
+
         boardRepository.save(board);
+
+//        Board board = modelMapper.map(boardDTO, Board.class);
+//
+//        boardRepository.save(board);
     }
     @Override
     public void remove(Long bno) {

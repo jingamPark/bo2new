@@ -27,4 +27,6 @@ public class BoardDTO {
 
     private LocalDate modDate;
 
+
+
 }

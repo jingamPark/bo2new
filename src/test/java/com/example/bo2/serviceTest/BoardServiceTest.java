@@ -30,4 +30,42 @@ public class BoardServiceTest {
         log.info(bno);
     }
 
+    @Test
+    public void readTest(){
+
+       BoardDTO boardDTO= boardService.read(250L);
+
+       log.info(boardDTO);
+
+//       if (boardDTO == null ){
+//           redirectAttributes.adda
+//           return "redirect:/board.list";
+//       }
+
+       log.info(boardService.read(250L));
+
+    }
+
+    @Test
+    public void modifytest(){
+
+        boardService.modify(BoardDTO.builder()
+                .bno(250L).title("서비스에서 ")
+                .content("수정한내용")
+                .build());
+
+        log.info(boardService.read(250L));
+
+    }
+
+    @Test
+    public void deltest(){
+
+
+        boardService.remove(250L);
+    }
+
+
+
+
 }

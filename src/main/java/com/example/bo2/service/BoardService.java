@@ -11,10 +11,14 @@ public interface BoardService {
 
     public List<Board> select();
 
+    //페이징처리 , 검색처리, 목록
+
+
     public BoardDTO read(Long bno);
 
-    public void modify(Board board);
+    public void modify(BoardDTO boardDTO);
 
     public void remove(Long bno);
+
 
 }
