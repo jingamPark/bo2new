@@ -2,6 +2,8 @@ package com.example.bo2.controller;
 
 
 import com.example.bo2.dto.BoardDTO;
+import com.example.bo2.dto.PageRequestDTO;
+import com.example.bo2.dto.PageResponseDTO;
 import com.example.bo2.entity.Board;
 import com.example.bo2.service.BoardService;
 import lombok.Getter;
@@ -37,10 +39,13 @@ public class BoardController {
         return "redirect:list";
     }
     @GetMapping("/list")
-    public void list(Model model){
-        List<Board> boardList = boardService.select();
-        model.addAttribute("list", boardList);
-        boardList.forEach(board -> log.info(board));
+    public void list(Model model, PageRequestDTO pageRequestDTO  ){
+//        List<Board> boardList = boardService.select();
+        PageResponseDTO<BoardDTO> pageResponseDTO =  boardService.list(pageRequestDTO);
+
+//        model.addAttribute("list", pageResponseDTO.getDtoList());
+        model.addAttribute("pageResponseDTO", pageResponseDTO);
+//        boardList.forEach(board -> log.info(board));
 
     }
     @GetMapping({"/read", "/modify"})
