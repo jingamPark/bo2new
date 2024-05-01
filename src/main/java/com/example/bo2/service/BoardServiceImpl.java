@@ -1,16 +1,21 @@
 package com.example.bo2.service;
 
 import com.example.bo2.dto.BoardDTO;
+import com.example.bo2.dto.PageRequestDTO;
+import com.example.bo2.dto.PageResponseDTO;
 import com.example.bo2.entity.Board;
 import com.example.bo2.repository.BoardRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @RequiredArgsConstructor
@@ -34,8 +39,39 @@ public class BoardServiceImpl implements BoardService{
 
     @Override
     public List<Board> select() {
+
         return boardRepository.findAll();
     }
+
+    @Override
+    public PageResponseDTO<BoardDTO> list(PageRequestDTO pageRequestDTO) {
+
+        String[] types = pageRequestDTO.getTypes();
+
+        String keyword = pageRequestDTO.getKeyword();
+
+        Pageable pageable = pageRequestDTO.getPageable("bno");
+
+        Page<Board> boardPage = boardRepository.searchAll(types, keyword, pageable);
+
+        List<BoardDTO> boardDTOList =
+        boardPage.getContent().stream()
+                .map(board -> modelMapper.map(board, BoardDTO.class))
+                .collect(Collectors.toList());
+
+//        PageResponseDTO<BoardDTO> aa =
+//                new PageResponseDTO<BoardDTO>(pageRequestDTO, boardDTOList, (int)boardPage.getTotalElements());
+
+//        return aa;
+
+        return  PageResponseDTO.<BoardDTO>withAll()
+                .pageRequestDTO(pageRequestDTO)
+                .dtoList(boardDTOList)
+                .total((int)boardPage.getTotalElements())
+                .build();
+
+    }
+
     @Override
     public BoardDTO read(Long bno) {
         Optional<Board> board

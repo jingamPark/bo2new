@@ -82,22 +82,22 @@ public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardS
 
             }//for
             query.where(booleanBuilder);
-            System.out.println("검색조건 추가 : " +  query);
+//            System.out.println("검색조건 추가 : " +  query);
 
         }//if
 
         query.where(board.bno.gt(0L));
-        System.out.println("0보다 큰조건  bno가 " + query);
+//        System.out.println("0보다 큰조건  bno가 " + query);
 
         //페이징
         this.getQuerydsl().applyPagination(pageable, query);
 
 
         List<Board> boardList = query.fetch(); //실행
-        boardList.forEach(board1 -> log.info(board1));
+//        boardList.forEach(board1 -> log.info(board1));
         long count = query.fetchCount(); //row수
 
-        System.out.println(count);
+//        System.out.println(count);
 
 
 

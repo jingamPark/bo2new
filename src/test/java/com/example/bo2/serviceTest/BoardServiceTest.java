@@ -2,11 +2,14 @@ package com.example.bo2.serviceTest;
 
 
 import com.example.bo2.dto.BoardDTO;
+import com.example.bo2.dto.PageRequestDTO;
+import com.example.bo2.dto.PageResponseDTO;
 import com.example.bo2.service.BoardService;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Pageable;
 
 @SpringBootTest
 @Log4j2
@@ -63,6 +66,21 @@ public class BoardServiceTest {
 
 
         boardService.remove(250L);
+    }
+
+    @Test
+    public void testlist(){
+
+        PageRequestDTO pageRequestDTO
+                = PageRequestDTO.builder()
+                .type("tcw")
+                .keyword("53")
+                .page(1)
+                .build();
+        PageResponseDTO<BoardDTO> aa = boardService.list(pageRequestDTO);
+        log.info(boardService.list(pageRequestDTO));
+
+
     }
 
 
