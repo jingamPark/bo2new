@@ -1,7 +1,9 @@
 package com.example.bo2.repositoryTest;
 
+import com.example.bo2.dto.BoardListReplyCountDTO;
 import com.example.bo2.entity.Board;
 import com.example.bo2.repository.BoardRepository;
+import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -11,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 @SpringBootTest
+@Log4j2
 public class boardRetest {
 
     @Autowired
@@ -55,6 +58,30 @@ public class boardRetest {
         System.out.println("페이지 번호" +  boardPage.getNumber());
         System.out.println("시작페이지 " + boardPage.isFirst());
         System.out.println("다음페이지 " + boardPage.hasNext());
+
+    }
+
+    @Test
+    public void replyCount(){
+
+        //String[] types, String keyword, Pageable pageable
+
+        String[] str = {"t", "w"};
+
+        String keyword = "목3";
+
+        Pageable pageable = PageRequest.of(0, 7, Sort.by("bno").descending());
+
+
+        Page<BoardListReplyCountDTO> boardListReplyCountDTOS
+                = boardRepository.searchWithReplyCount(str, keyword, pageable);
+
+        boardListReplyCountDTOS.forEach(boardListReplyCountDTO -> log.info(boardListReplyCountDTO));
+    }
+
+    @Test
+    public void aaatest(){
+
 
     }
 

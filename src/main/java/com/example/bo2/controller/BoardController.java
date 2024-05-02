@@ -2,6 +2,7 @@ package com.example.bo2.controller;
 
 
 import com.example.bo2.dto.BoardDTO;
+import com.example.bo2.dto.BoardListReplyCountDTO;
 import com.example.bo2.dto.PageRequestDTO;
 import com.example.bo2.dto.PageResponseDTO;
 import com.example.bo2.entity.Board;
@@ -55,7 +56,9 @@ public class BoardController {
     @GetMapping("/list")
     public void list(Model model, PageRequestDTO pageRequestDTO  ){
 //        List<Board> boardList = boardService.select();
-        PageResponseDTO<BoardDTO> pageResponseDTO =  boardService.list(pageRequestDTO);
+//        PageResponseDTO<BoardDTO> pageResponseDTO =  boardService.list(pageRequestDTO);
+        PageResponseDTO<BoardListReplyCountDTO> pageResponseDTO
+                = boardService.listWithReplyCount(pageRequestDTO);
 
 //        model.addAttribute("list", pageResponseDTO.getDtoList());
         model.addAttribute("pageResponseDTO", pageResponseDTO);

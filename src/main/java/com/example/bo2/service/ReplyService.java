@@ -8,23 +8,17 @@ import com.example.bo2.entity.Board;
 
 import java.util.List;
 
-public interface BoardService {
+public interface ReplyService {
+
 
     public Long register(BoardDTO boardDTO);
 
     public List<Board> select();
 
-    //페이징처리 , 검색처리, 목록
-    public PageResponseDTO<BoardDTO> list(PageRequestDTO pageRequestDTO);
-    //페이징처리, 검색처리, 댓글수량, 목록
-
-    public PageResponseDTO<BoardListReplyCountDTO>listWithReplyCount(PageRequestDTO pageRequestDTO);
 
     public BoardDTO read(Long bno);
 
     public void modify(BoardDTO boardDTO);
 
     public void remove(Long bno);
-
-
 }

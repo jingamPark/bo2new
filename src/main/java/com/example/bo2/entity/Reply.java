@@ -9,7 +9,9 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString(exclude = "board")
+//@ToString(exclude = "board")
+@ToString
+@Table(name = "Reply" , indexes = {@Index(name = "idx_reply_board_bno", columnList = "board_bno")})
 public class Reply extends BaseEntity {
 
     @Id
