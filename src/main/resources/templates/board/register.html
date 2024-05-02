@@ -1,21 +1,87 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout/layout1.html}">
+      layout:decorate="~{layout/basic.html}">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
 <div layout:fragment="content">
-    등록
 
-    <form action="/board/register" method="post">
-        글제목 <input  name="title">
-        내용 <textarea name="content"></textarea>
-        작성자 <input name="writer">
-        <input value="전송" type="submit">
-    </form>
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">등록</h1>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    환영합니다. 고객님
+                </div>
+                <div class="panel-body">
+                    <form role="form" action="/board/register" method="post">
+                        <div class="form-group has-success">
+                            <label   class="control-label" for="title">제 목</label>
+                            <input name="title" type="text" class="form-control"  id="title"  placeholder="최소3글자 이상 작성해주세요">
+                        </div>
+                        <div class="form-group has-warning">
+                            <label class="control-label" for="content">내 용</label>
+                            <input  name="content" type="text" class="form-control" id="content"  placeholder="빈칸이 될 수 없습니다.">
+                        </div>
+                        <div class="form-group has-error">
+                            <label class="control-label" for="writer">작성자</label>
+                            <input name="writer" type="text" class="form-control" id="writer"  placeholder="이름은요??">
+                        </div>
+                        <button type="submit" class="btn btn-default registerBtn">저장</button>
+                        <button type="submit" class="btn btn-default listBtn">목록</button>
+                        <button type="reset" class="btn btn-default">초기화</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<script layout:fragment="script" th:inline="javascript">
+
+    const errors = [[${errors}]];
+    console.log(errors);
+
+    let errorMsg = '';
+
+    if(errors){
+        for(let i =0 ; i < errors.length; i++){
+            //errorMsg += `${errors[i].field}은(는) ${errors[i].code} \n`
+
+            if(errors[i].field == 'title'){
+                if(errors[i].code == 'Size'){
+                    errorMsg += "글자수는 최소 3 최대 200 입니다. \n"
+                }else {
+                    errorMsg +="제목을 입력해주세요 \n"
+                }
+
+            }
+            if(errors[i].field == 'content'){
+                errorMsg +="내용을 입력해주세요 \n"
+            }
+            if(errors[i].field == 'writer'){
+                errorMsg +="작성자를 입력해주세요 \n"
+            }
+        }
+        alert(errorMsg);
+    }
+
+
+
+    document.querySelector(".listBtn").addEventListener("click", function (e) {
+        e.preventDefault();
+
+        self.location = '/board/list';
+    });
+
+
+
+</script>
+
+
+
 </body>
 </html>
