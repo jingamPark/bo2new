@@ -48,7 +48,7 @@ public class BoardController {
 
         Long bno =  boardService.register(boardDTO);
 
-        redirectAttributes.addFlashAttribute("result", bno);
+        redirectAttributes.addFlashAttribute("result", bno + "글이 등록되었습니다.");
 
         return "redirect:/board/list";
     }
@@ -90,14 +90,19 @@ public class BoardController {
 
         boardService.modify(boardDTO);
 
-        redirectAttributes.addFlashAttribute("result", "modfied");
+        redirectAttributes.addFlashAttribute("result", boardDTO.getBno() + "글이 수정되었습니다.");
         redirectAttributes.addAttribute("bno", boardDTO.getBno());
 
         return "redirect:/board/read?"+pageRequestDTO.getLink();
     }
     @PostMapping("/remove")
-    public void remove(Long bno){
+    public String remove(Long bno, RedirectAttributes redirectAttributes){
+
         boardService.remove(bno);
+
+        redirectAttributes.addFlashAttribute("result",  bno + "글이 삭제되었습니다.");
+
+        return "redirect:/board/list";
     }
 
 

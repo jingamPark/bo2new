@@ -45,7 +45,10 @@
                     </div>
 
                         <!--input pagerepuest 정보 추가할것-->
-
+<!--                    <input name="keyword" type="hidden" th:value="${pageRequestDTO.keyword}">-->
+<!--                    <input name="size" type="hidden" th:value="${pageRequestDTO.size}">-->
+<!--                    <input name="page" type="hidden" th:value="${pageRequestDTO.page}">-->
+<!--                    <input name="type" type="hidden" th:value="${pageRequestDTO.type}">-->
 
 
                     <button type="submit" class="btn btn-default modifyBtn">저장</button>
@@ -62,7 +65,23 @@
 
 <script layout:fragment="script" th:inline="javascript">
 
+    const link = [[${pageRequestDTO.getLink()}]]
+    const formObj = document.querySelector("form");
 
+    document.querySelector(".modifyBtn").addEventListener("click", function (e) {
+       e.preventDefault();
+       e.stopPropagation();
+       formObj.action = `/board/modify?${link}`;
+       formObj.method = "post";
+       formObj.submit();
+    });
+    document.querySelector(".removeBtn").addEventListener("click", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        formObj.action = `/board/remove`;
+        formObj.method = "post";
+        formObj.submit();
+    });
 
 
 

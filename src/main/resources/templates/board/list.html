@@ -124,7 +124,7 @@
     const result = [[${result}]]
 
     if(result){
-        alert(result+"번글이 등록되었습니다.")
+        alert(result);
     }
 
 
@@ -143,7 +143,6 @@
         //console.log(num);
         let formObj = document.querySelector("form");
 
-        formObj.innerHTML += `<input type="hidden" name="page" value="${num}">`;
         formObj.innerHTML += `<input type="hidden" name="page" value="${num}">`;
 
         formObj.submit();
