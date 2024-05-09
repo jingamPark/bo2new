@@ -83,6 +83,13 @@ public class boardRetest {
     public void aaatest(){
 
 
+
+    }
+
+    @Test
+    public void searchTest1(){
+        Pageable pageable = PageRequest.of(0, 10);
+        boardRepository.search2(pageable);
     }
 
 

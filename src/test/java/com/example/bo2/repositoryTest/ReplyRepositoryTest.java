@@ -8,6 +8,7 @@ import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -92,6 +93,14 @@ public class ReplyRepositoryTest {
         replyRepository.listOfBoard(10L, pageable)
                 .forEach(reply -> log.info(reply));
 
+        Page<Reply> a = replyRepository.listOfBoard(10L, pageable);
+
+//        a.getContent();
+//        a.getSize();
+//        a.getTotalElements();
+//        a.getNumber();
+
+
     }
 
     @Test
@@ -100,6 +109,12 @@ public class ReplyRepositoryTest {
     }
 
 
+    @Test
+    public void findaaatest(){
+
+        replyRepository.findaaa().forEach(reply -> log.info(reply));
+
+    }
 
 
 

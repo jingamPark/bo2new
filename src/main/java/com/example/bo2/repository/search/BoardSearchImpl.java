@@ -60,6 +60,38 @@ public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardS
     }
 
     @Override
+    public Page<Board> search2(Pageable pageable) {
+
+        QBoard board = QBoard.board; //q도메인 객체
+        JPQLQuery<Board> query = from(board);
+
+        System.out.println("from(board) : " + query);
+        query.where(board.title.contains("1").or(board.writer.contains("2")));
+        System.out.println("from(board) where문 추가 : " + query);
+        query.where(board.bno.eq(3L));
+
+
+        this.getQuerydsl().applyPagination(pageable, query);
+        query.fetch();
+
+
+        System.out.println("from(board) where 3 = 3문 추가 : " + query);
+//        BooleanBuilder booleanBuilder = new BooleanBuilder();
+//
+//        booleanBuilder.or(board.title.contains("1"));
+//        booleanBuilder.or(board.content.contains("1"));
+////        booleanBuilder.or(board.writer.contains("1"));
+//
+//        //query.where(board.title.contains("1"));
+//        query.where(booleanBuilder);
+//        System.out.println(query);
+//        query.where(board.bno.gt(0L));
+//        System.out.println(query);
+
+        return null;
+    }
+
+    @Override
     public Page<Board> searchAll(String[] types, String keyword, Pageable pageable) {
 
         QBoard board = QBoard.board; //q도메인 객체

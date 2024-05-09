@@ -51,25 +51,253 @@
 <!--                            <button type="button" class="btn btn-default listBtn">목록</button>-->
                         </a>
 
+
+
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="fa fa-comments fa-fw"></i> Reply  <button class="btn btn-default replyRegister" data-toggle="modal" data-target="#myModal">
+                    New Reply
+                </button>
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <ul class="chat replylist">
+                        <li class=" clearfix"><div class="chat-body clearfix"><div class="header">
+                                    <strong class="primary-font">aaaaaaaa</strong><small class="pull-right text-muted">
+                                        <i class="fa fa-clock-o fa-fw"></i> 12 mins ago</small>
+                                </div><p>aaaaaaa</p></div></li>
+
+
+                    </ul>
+
+                    <div class="col-sm-6">
+                        <div class="dataTables_paginate paging_simple_numbers" id="dataTables-example_paginate">
+                            <ul class="pagination">
+
+                            </ul>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
+
+
     </div>
+
+    <div class="modal fade" data-rno="" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                </div>
+                <div class="modal-body">
+                    <label class="replyText1">내용</label>
+                    <input class="form-control replyText replyText1">
+                    <label class="replyer1">작성자</label>
+                    <input class="form-control replyer replyer1">
+                    <label class="regdate1">등록일자</label>
+                    <input class="form-control regdate regdate1">
+                </div>
+                <!--모달댓글 입력창 끝-->
+
+                <!--모달댓글 입력창 버튼-->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default saveBtn">Save</button>
+                    <button type="button" class="btn btn-default modBtn">Modify</button>
+                    <button type="button" class="btn btn-default removeBtn">삭제</button>
+                    <button type="button" class="btn btn-default" id="closeBtn" data-dismiss="modal">Close</button>
+
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+    <script src="/js/reply.js"></script>
+
+    <!--content-->
 </div>
 
 <script layout:fragment="script" th:inline="javascript">
+    let bno = [[${dto.bno}]]            //현재 몇번 글의 댓글인지 알기위해서
+    console.log(bno)
+    let str = "";                       //ul태그 안에 들어갈 html
+    let replylist = $(".replylist")     //댓글이 달리는 ul태그
+    let pagination = $(".pagination")   //댓글 페이징 처리 ul태그
+    let str2 = "";                      //댓글 페이징 처리를 위한 str2
+    let replyRegister =$(".replyRegister");     //댓글 등록 버튼 모달 open
+
+    let replyText1 =$(".replyText1");     //작성내용 input+라벨
+    let replyer1 =$(".replyer1");     //작성자 input+라벨
+    let regdate1 =$(".regdate1");     //input 등록일자 +라벨
+
+
+    let replyText =$(".replyText");     //작성내용 input
+    let replyer =$(".replyer");     //작성자 input
+    let regdate =$(".regdate");     //input 등록일자
+    let modal =$(".modal");     //모달전체
+    let saveBtn =$(".saveBtn")  //저장버튼
+    let modBtn =$(".modBtn")    //수정버튼
+    let removeBtn =$(".removeBtn")  //삭제버튼
+    let thispage =1
+///////////변수
+
+
+
+    saveBtn.on("click", function () {
+        console.log(replyText.val())
+        console.log(replyer.val())
+        let reply= {"bno": bno, "replyText" : replyText.val() , "replyer" : replyer.val()}
+        replyservice.register(reply, function (data) {
+            console.log(data)
+            alert(data.rno + "번 댓글이 등록되었습니다.")
+            showList(1);
+        });
+        modal.modal("hide")
+
+
+    });
+
+
+
+    //수정버튼 클릭시
+    modBtn.on("click", function () {
+
+
+        let reply = {"rno" : modal.data("rno"), "replyText" : replyText.val()}
+
+
+        replyservice.modify(reply, function (data) {
+            alert(data.rno)
+            showList(thispage)
+
+
+        });
+
+        modal.modal("hide")
+
+    });
+    removeBtn.on("click", function () {
+        replyservice.delete(modal.data("rno"), function (data) {
+            alert(data.rno)
+            showList(1)
+        })
+        modal.modal("hide")
+    });
+
+    //replyservice에 기능 구현
+
+
+
+
+    replyRegister.on("click", function () {
+        modal.find("button[id != closeBtn]").hide() //버튼중에 아이디를 찾는다. id가 closeBtn이 아닌거 + 숨김
+        modal.find("input").hide();                 //인풋태그 전부 숨김
+        modal.find("label").hide();                 //라벨태그 전부 숨김
+
+        replyText.val("");                      //글내용 초기화
+        replyer.val("");                        //작성자 초기화
+        regdate.val("");                        //등록일 초기화
+        replyText1.show();                       //show= 보이게 하는 기능
+        replyer1.show();
+        saveBtn.show();
 
 
 
 
 
-   // document.querySelector(".listBtn").addEventListener("click", function (e) {
-   //     e.preventDefault();
-   //
-   //     let link = [[${pageRequestDTO.getLink()}]];
-   //
-   //     self.location = `/board/list?${link}`;
-   // });
+    });
+
+    //댓글 리스틀 클릭시 수정 모달창 오픈
+    //수정
+    replylist.on("click" ,"li", function (e){
+        modal.modal("show");
+        modal.find("button[id != closeBtn]").hide() //버튼중에 아이디를 찾는다. id가 closeBtn이 아닌거 + 숨김
+        modal.find("input").hide();                 //인풋태그 전부 숨김
+        modal.find("label").hide();
+        //input 태그 벨류값 전부 ""빈문자열로 초기화
+        replyText.val("");                      //글내용 초기화
+        replyer.val("");                        //작성자 초기화
+        regdate.val("");                        //등록일 초기화
+
+        //내용 , 작성자 ,일자
+        replyText1.show();                       //show= 보이게 하는 기능
+        replyer1.show();
+        regdate1.show();
+        modBtn.show();
+        removeBtn.show();
+        replyer.attr("readonly", true)
+        regdate.attr("readonly", true)
+
+        let rno = $(this).data("num");
+        console.log(rno)
+
+
+        replyservice.read(rno, function (data) {
+            console.log(data)
+            replyText.val(data.replyText);                      //글내용 초기화
+            replyer.val(data.replyer);                        //작성자 초기화
+            regdate.val(data.regDate);
+            modal.data("rno", data.rno)
+            console.log(modal.data("rno"))
+        });
+
+    })
+
+    let showList = function (page) {
+        str = "";
+        str2 = "";
+        replyservice.list(page, function (data) {
+            console.log(data);
+            console.log(data.start);
+
+
+            for(let i = 0; i < data.dtoList.length; i++){
+                str += `<li data-num="${data.dtoList[i].rno}" class=" clearfix"><div class="chat-body clearfix"><div class="header">
+                    <strong className="primary-font">${data.dtoList[i].replyer}</strong><small className="pull-right text-muted">
+                    <i className="fa fa-clock-o fa-fw"></i> 12 mins ago</small>
+                    </div><p>${data.dtoList[i].replyText}</p></div></li>`;
+            }
+            if(data.prev){
+                str2 += `<li  class="paginate_button previous " aria-controls="dataTables-example" tabindex="0" id="dataTables-example_previous">
+                <a data-num="${data.start -1}">이전</a>
+            </li>`;
+            }
+            for(let i = data.start, j=data.end ; i <= j ; i++){
+                str2 +=  `<li class="paginate_button ${i == data.page ? 'active' : ''}" aria-controls="dataTables-example" tabIndex="0">
+                    <a data-num="${i}">${i}</a>
+                </li>`;
+
+            }
+            if(data.next){
+                str2 += `<li  class="paginate_button" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_next">
+                <a data-num="${data.end + 1}">Next</a>
+            </li>`
+            }
+            pagination.html(str2);
+            replylist.html(str);
+
+        })
+
+    }
+
+    pagination.on("click","a", function (e) {
+        let datanum = $(e.target).data("num")
+
+        showList(datanum)
+    })
+
+
+
+    showList(1);
+
+
+
 
 
 

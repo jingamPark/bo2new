@@ -7,6 +7,7 @@ import lombok.*;
 @Entity
 @Getter
 @Builder
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 //@ToString(exclude = "board")
@@ -24,6 +25,10 @@ public class Reply extends BaseEntity {
     private String replyText;   // 내용
 
     private  String replyer;    //작성자
+
+    public void changeText(String text){
+        this.replyText = text;
+    }
 
 
 

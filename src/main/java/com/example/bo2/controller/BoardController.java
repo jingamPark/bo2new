@@ -6,7 +6,9 @@ import com.example.bo2.dto.BoardListReplyCountDTO;
 import com.example.bo2.dto.PageRequestDTO;
 import com.example.bo2.dto.PageResponseDTO;
 import com.example.bo2.entity.Board;
+import com.example.bo2.repository.ReplyRepository;
 import com.example.bo2.service.BoardService;
+import com.example.bo2.service.ReplyService;
 import jakarta.validation.Valid;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -17,9 +19,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 @Log4j2
@@ -29,9 +35,14 @@ public class BoardController {
 
     private final BoardService boardService;
 
+    private final ReplyService replyService;
+
+
+
 
     @GetMapping("/register")
     public void register(){
+
 
     }
     @PostMapping("/register")
@@ -69,7 +80,7 @@ public class BoardController {
     public void read(Long bno, Model model, PageRequestDTO pageRequestDTO){
 
         model.addAttribute("dto", boardService.read(bno));
-
+//        model.addAttribute("rDto", replyService.read(140L));
 
     }
     @PostMapping("/modify")
@@ -108,6 +119,22 @@ public class BoardController {
         return "redirect:/board/list";
     }
 
+//    @GetMapping("/sample")
+//    public void sample() {
+//
+//    }
+//
+//    @ResponseBody
+//    @GetMapping("/sam")
+//    public Board sam() {
+//        Board board = Board.builder()
+//                .title("내용")
+//                .build();
+//        return board;
+//    }
 
+    @GetMapping("/board")
+    public void board() {
 
+    }
 }

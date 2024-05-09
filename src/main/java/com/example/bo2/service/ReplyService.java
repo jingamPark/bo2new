@@ -1,24 +1,24 @@
 package com.example.bo2.service;
 
-import com.example.bo2.dto.BoardDTO;
-import com.example.bo2.dto.BoardListReplyCountDTO;
-import com.example.bo2.dto.PageRequestDTO;
-import com.example.bo2.dto.PageResponseDTO;
+import com.example.bo2.dto.*;
 import com.example.bo2.entity.Board;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
 public interface ReplyService {
 
 
-    public Long register(BoardDTO boardDTO);
+    public Long register(ReplyDTO replyDTO);
 
-    public List<Board> select();
+    PageResponseDTO<ReplyDTO> getListOfBoard
+            (Long bno, PageRequestDTO pageRequestDTO);
 
 
-    public BoardDTO read(Long bno);
 
-    public void modify(BoardDTO boardDTO);
+    public ReplyDTO read(Long rno);
 
-    public void remove(Long bno);
+    public void modify(ReplyDTO replyDTO);
+
+    public void remove(Long rno);
 }

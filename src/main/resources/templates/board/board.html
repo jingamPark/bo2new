@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.w3.org/1999/xhtml">
+<head>
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+</head>
+<body>
+<div layout:fragment="content">
+
+    <div class="rep">댓글 등록창
+        <div class="laip">
+            <label class="replyText1">내용</label>
+            <input type="text" placeholder="댓글내용..." name="text" class="replyText">
+            <label class="replyer1">작성자</label>
+            <input type="text" placeholder="작성내용..." name="text" class="replyer">
+            <label class="regdate1">작성일자</label>
+            <input class="regdate" >
+        </div>
+
+        <button type="button" class="btn btn-default saveBtn">Save</button>
+
+        <div class="repBtn">
+            <button type="button" class="btn btn-default removeBtn">삭제</button>
+            <button type="button" class="btn btn-default modBtn">Modify</button>
+        </div>
+
+    </div>
+
+    <!--<button class="replyBtn">리스트버튼</button>-->
+    <div>
+        <ul class="replyList">
+
+        </ul>
+
+        <ul class="pagination">
+
+        </ul>
+
+    </div>
+
+</div>
+<script src="/js/reply.js"></script>
+    <script >
+        // let bno = bno //가지고있는 데이터1개
+        // let replyList =$(".replyList")
+        // $.getJSON("/replies/list/")
+        let bno = 11
+        let str = "";
+        let str1 = "";
+        let replyList = $(".replyList") // 댓글 리스트 창 불러오기
+        let register = $(".register")   // 댓글 입력창
+        let saveBtn = $(".saveBtn")     //목록 불러오기 버튼
+        let modBtn = $(".modBtn")       //댓글 수정버튼
+        let removeBtn = $(".removeBtn")     //댓글 삭제버튼
+        let rep = $(".rep")         //댓글 내용 div
+        let pagination =$(".pagination")
+        let repBtn = $(".repBtn")    //댓글 등록 수정 삭제 버튼
+        let laip = $(".laip")
+
+
+        //댓글 내용 작성자 등록날짜 인풋
+        let replyText = $(".replyText")
+        let replyer = $(".replyer")
+        let regdate = $(".regdate")
+        let replyBtn = $(".replyBtn")
+        //댓글 내용 작성자 라벨
+        let replyText1 = $(".replyText1")
+        let replyer1 = $(".replyer1")
+        let regdate1 = $(".regdate1")
+
+
+        modBtn.hide()
+        removeBtn.hide()
+        regdate1.hide()
+        regdate.hide()
+
+
+
+        let showList = function (page) {
+            replyservice.list(page, function (data) {
+                console.log(data);
+                str = ""
+                str1 = ""
+                for (let i =0; i < data.dtoList.length; i++) {
+                    str +=  `<li data-num=${data.dtoList[i].rno}>댓글 번호 : ${data.dtoList[i].rno}  </li>`
+                    str += `<li>내용 : ${data.dtoList[i].replyText} </li>`
+                    str += `<li>작성자 : ${data.dtoList[i].replyer} </li>`
+                    str += `<li>등록날짜 :  ${data.dtoList[i].regDate} </li>`
+                }//data.dtoList[i]
+                console.log(data)
+                if (data.prev) {
+                    str1 += `<li ><a data-num="${data.start -1}">이전</a></li>`
+                }
+                for (let i = data.start, j = data.end; i <= j; i++) {
+                    str1 += `<li class="${i== data.page ? 'active' : '' }"> <a data-num="${i}">${i}</a></li>`;
+                }
+                if (data.next) {
+                    str1+= `<li><a data-num="${data.end+1}">다음</a></li>`
+                }
+
+
+                pagination.html(str1);
+                replyList.html(str);
+
+
+            });
+        };
+
+        pagination.on("click", function (e) {
+            let datanum = $(e.target).data("num")
+
+            showList(datanum)
+        });
+
+
+        // replyBtn.on("click", function (e) {
+        //     console.log("여기는 들옴???")
+        //     $.ajax({
+        //         url:"/replies/list/" + bno ,
+        //         dataType : 'json',
+        //         success : function (data) {
+        //             console.log("통신 성공")
+        //             //$(".replyList").html(data.dtoList[0].rno)
+        //
+        //             for (let i =0; i < data.dtoList.length; i++) {
+        //                  str +=  `<li data-num=${data.dtoList[i].rno}>댓글 번호 : ${data.dtoList[i].rno}  </li>`
+        //                  str += `<li>내용 : ${data.dtoList[i].replyText} </li>`
+        //                  str += `<li>작성자 : ${data.dtoList[i].replyer} </li>`
+        //                  str += `<li>등록날짜 :  ${data.dtoList[i].regDate} </li>`
+        //
+        //             }
+        //             replyList.html(str);
+        //         },error: function () {
+        //
+        //         }
+        //     })
+        // });//replyBtn ajax방식으로 불러온 리스트
+
+
+
+
+        saveBtn.on("click", function (e) {
+            console.log("세이브버튼")
+
+            console.log(replyText.val())
+            console.log(replyer.val())
+
+            let reply = {"bno" : bno, "replyText" : replyText.val(), "replyer" :replyer.val() }
+            replyservice.register(reply, function (data) {
+                console.log(data)
+                alert(data.rno + "번 댓글이 등록되었습니다.")
+            });
+
+
+
+
+        });//register
+
+
+
+
+        replyList.on("click", "li", function (e) {
+            saveBtn.hide()
+
+
+            replyText.val("");                      //글내용 초기화
+            replyer.val("");                        //작성자 초기화
+            regdate.val("");                        //등록일 초기
+
+
+            removeBtn.show()
+            modBtn.show()
+
+            replyText1.show()
+            replyer1.show()
+
+
+
+
+            replyer.attr("readonly", true)
+            regdate.attr("readonly", true)
+
+
+            let rno = $(this).data("num");
+            console.log(rno)
+
+
+            replyservice.read(rno, function (data) {
+                regdate.show()
+                regdate1.show()
+                console.log(data)
+                replyText.val(data.replyText)
+                replyer.val(data.replyer)
+                regdate.val(data.regDate)
+                rep.data("rno", data.rno)
+                console.log(rep.data("rno"))
+            });
+
+
+        });
+
+
+        // laip
+        modBtn.on("click", function () {
+
+
+
+            let reply = {"rno" : rep.data("rno"), "replyText" : replyText.val()}
+
+            replyservice.modify(reply, function (data) {
+                alert(data.rno)
+                showList(thispage)
+            });
+
+
+        });
+
+
+        removeBtn.on("click", function () {
+            replyservice.delete(rep.data("rno"), function (data) {
+                alert(data.rno)
+                showList(1)
+            });
+
+        });
+
+
+        showList(1)
+    </script>
+
+</body>
+</html>
