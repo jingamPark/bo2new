@@ -55,9 +55,27 @@ public class ItemServiceTest {
         PageResponseDTO<ItemDTO> aa =itemService.list(pageRequestDTO);
         log.info(aa);
 
-
     }
 
 
+    @Test
+    public void modifyTest() {
+        ItemDTO itemDTO = ItemDTO.builder()
+                .ino(1L)
+                .item_name("사물함")
+                .item_content("튼튼함")
+                .item_price(3002L)
+                .item_count(11L)
+                .build();
 
+        itemService.modify(itemDTO);
+
+        log.info(itemService.read(1L));
+    }
+
+    @Test
+    public void removeTest() {
+        itemService.remove(98L);
+        log.info(itemService.read(98L));
+    }
 }

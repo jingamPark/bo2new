@@ -200,16 +200,15 @@
         modal.find("input").hide();                 //인풋태그 전부 숨김
         modal.find("label").hide();                 //라벨태그 전부 숨김
 
+        replyer.attr("readonly", false)
+
+
         replyText.val("");                      //글내용 초기화
         replyer.val("");                        //작성자 초기화
         regdate.val("");                        //등록일 초기화
         replyText1.show();                       //show= 보이게 하는 기능
         replyer1.show();
         saveBtn.show();
-
-
-
-
 
     });
 
@@ -246,6 +245,7 @@
             modal.data("rno", data.rno)
             console.log(modal.data("rno"))
         });
+
 
     })
 

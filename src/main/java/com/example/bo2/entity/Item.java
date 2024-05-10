@@ -34,8 +34,11 @@ public class Item extends BaseEntity{
     @Column(length = 50, nullable = false)
     private String seller;  //판매자
 
-    public void chang(String item_name , String item_content){
+    public void chang(String item_name , String item_content, Long item_count, Long item_price){
 
+
+        this.item_count = item_count;
+        this.item_price = item_price;
         this.item_name = item_name;
         this.item_content = item_content;
 

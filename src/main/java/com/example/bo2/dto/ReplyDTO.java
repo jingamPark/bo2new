@@ -11,8 +11,8 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
-@ToString(exclude ="board")
-//@ToString
+//@ToString(exclude ="board")
+@ToString
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

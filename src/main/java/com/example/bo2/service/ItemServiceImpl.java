@@ -94,7 +94,7 @@ public class ItemServiceImpl implements ItemService{
 
         Item item =result.orElseThrow();
 
-        item.chang(itemDTO.getItem_name(), item.getItem_content());
+        item.chang(itemDTO.getItem_name(), itemDTO.getItem_content(), itemDTO.getItem_count(), itemDTO.getItem_price());
 
 
         itemRepository.save(item);

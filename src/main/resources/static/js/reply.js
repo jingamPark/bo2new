@@ -3,7 +3,7 @@ let replyservice =(function (){
 
 
     let list = function (page, callback) {
-        $.getJSON("/replies/list/" + bno , {page : page} , function (data){
+        $.getJSON("/replies/list/" + bno,{page : page} , function (data){
 
             callback(data)
 
