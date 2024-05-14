@@ -7,6 +7,7 @@ import com.example.bo2.dto.PageRequestDTO;
 import com.example.bo2.dto.PageResponseDTO;
 import com.example.bo2.entity.Board;
 import com.example.bo2.repository.ReplyRepository;
+import com.example.bo2.service.BoardImgService;
 import com.example.bo2.service.BoardService;
 import com.example.bo2.service.ReplyService;
 import jakarta.validation.Valid;
@@ -16,10 +17,8 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
@@ -37,6 +36,8 @@ public class BoardController {
 
     private final ReplyService replyService;
 
+    private final BoardImgService boardImgService;
+
 
 
 
@@ -48,7 +49,9 @@ public class BoardController {
     @PostMapping("/register")
     public String registerPost(@Valid BoardDTO boardDTO,
                                BindingResult bindingResult,
-                               RedirectAttributes redirectAttributes){
+                               RedirectAttributes redirectAttributes,
+                               @RequestParam("boardImgFile") List<MultipartFile> boardImgFileList
+    ){
 
         if(bindingResult.hasErrors()){
             log.info("has errors........");
@@ -59,6 +62,8 @@ public class BoardController {
         }
 
         Long bno =  boardService.register(boardDTO);
+
+        boardImgService.register(bno, boardImgFileList);
 
         redirectAttributes.addFlashAttribute("result", bno + "글이 등록되었습니다.");
 
@@ -81,13 +86,18 @@ public class BoardController {
 
         model.addAttribute("dto", boardService.read(bno));
 //        model.addAttribute("rDto", replyService.read(140L));
+        model.addAttribute("imgdto", boardImgService.imglist(bno));
 
     }
     @PostMapping("/modify")
     public String modify(@Valid BoardDTO boardDTO ,
                          BindingResult bindingResult,
                          RedirectAttributes redirectAttributes,
-                         PageRequestDTO pageRequestDTO){
+                         PageRequestDTO pageRequestDTO,
+                         Long[] ino,
+                          @RequestParam("boardImgFile") List<MultipartFile> boardImgFileList
+
+    ){
         //boardService.modify(board);
         log.info("진입 포스트");
         // page 번호 넘기기
@@ -102,7 +112,11 @@ public class BoardController {
             return "redirect:/board/modify?"+pageRequestDTO.getLink();
         }
 
+
+
         boardService.modify(boardDTO);
+        boardImgService.modify(ino);
+        boardImgService.register(boardDTO.getBno(), boardImgFileList);
 
         redirectAttributes.addFlashAttribute("result", boardDTO.getBno() + "글이 수정되었습니다.");
         redirectAttributes.addAttribute("bno", boardDTO.getBno());

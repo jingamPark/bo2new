@@ -17,7 +17,7 @@
                 수정사항을 수정해주세요
                 </div>
                 <div class="panel-body">
-                    <form th:action="@{/board/modify}" method="post">
+                    <form th:action="@{/board/modify}" method="post" enctype="multipart/form-data">
                     <div class="form-group has-success">
                         <label   class="control-label" for="bno" >글번호</label>
                         <input name="bno" type="text" readonly th:value="${dto.bno}" class="form-control"  id="bno" >
@@ -50,6 +50,26 @@
 <!--                    <input name="page" type="hidden" th:value="${pageRequestDTO.page}">-->
 <!--                    <input name="type" type="hidden" th:value="${pageRequestDTO.type}">-->
 
+                        <div class="col-lg-4 image-container" th:if="${not #lists.isEmpty(imgdto)}" th:each="img, status:${imgdto}">
+                            <div class="panel panel-default" >
+                                <div class="panel-heading">
+                                    [[${img.oriImgName}]]
+                                    <button type="button" class="deleteBtn">삭제</button>
+                                </div>
+                                <div class="panel-body">
+                                    <img th:data-num="${img.ino}" th:src="@{|/images/@{${#temporals.format(img.regDate, 'yyMMdd')}}/@{${img.imName}}|}" class="rounded float" alt="사진" width="300px" height="200px">
+                                    <input type="text" class="ino" name="ino" value="">
+                                </div>
+                                <div class="panel-footer">
+                                    Panel Footer
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="form-group container" th:each="num:${#numbers.sequence(1,5)}">
+                            <label>파일 업로드</label>
+                            <input type="file" name="boardImgFile">
+                        </div>
 
                     <button type="submit" class="btn btn-default modifyBtn">저장</button>
                     <button type="submit" class="btn btn-default removeBtn">삭제</button>
@@ -81,6 +101,16 @@
         formObj.action = `/board/remove`;
         formObj.method = "post";
         formObj.submit();
+    });
+
+    $('.deleteBtn').on('click', function() {
+        var imageContainer = $(this).closest('.image-container');
+        var inoInput = imageContainer.find('.ino');
+        var dataNumValue = imageContainer.find('img').attr('data-num');
+        inoInput.val(dataNumValue);
+
+        //imageContainer.find('img, .imgDelete-button').hide();
+        $(this).closest('.image-container').hide();
     });
 
 
