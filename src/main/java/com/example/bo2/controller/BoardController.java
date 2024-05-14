@@ -5,13 +5,13 @@ import com.example.bo2.dto.BoardDTO;
 import com.example.bo2.dto.BoardListReplyCountDTO;
 import com.example.bo2.dto.PageRequestDTO;
 import com.example.bo2.dto.PageResponseDTO;
-import com.example.bo2.entity.Board;
-import com.example.bo2.repository.ReplyRepository;
+
+
 import com.example.bo2.service.BoardImgService;
 import com.example.bo2.service.BoardService;
 import com.example.bo2.service.ReplyService;
 import jakarta.validation.Valid;
-import lombok.Getter;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
@@ -21,10 +21,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+
+
 import java.util.List;
-import java.util.Objects;
+
 
 @Controller
 @Log4j2

@@ -2,8 +2,8 @@ package com.example.bo2.entity;
 
 
 
-import com.example.bo2.entity.BaseEntity;
-import com.example.bo2.entity.Board;
+
+
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
