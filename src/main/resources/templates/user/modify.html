@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/basic.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <h2>회원정보</h2>
+
+    <div class="form-group has-success">
+        <label   class="control-label" for="bno" >유저번호</label>
+        <input name="sno" type="text" readonly th:value="${dto.sno}" class="form-control"  id="bno" >
+    </div>
+    <div class="form-group has-success">
+        <label   class="control-label" for="bno" >User name</label>
+        <input name="username" type="text" readonly th:value="${dto.username}" class="form-control"  id="bno" >
+    </div>
+    <div class="form-group has-success">
+        <label   class="control-label" for="password" >User password</label>
+        <input name="password" type="text"  th:value="${dto.password}" class="form-control"  id="password" >
+    </div>
+    <div class="form-group has-success">
+        <label   class="control-label" for="bno" >Email</label>
+        <input name="email" type="text" readonly th:value="${dto.email}" class="form-control"  id="bno" >
+    </div>
+
+    <a th:href="|@{/user/modify}|" class="btn btn-default">
+        수정
+    </a>
+    <a th:href="|@{/user/delete}|" class="btn btn-default">
+        삭제
+    </a>
+
+
+</div>
+</body>
+</html>

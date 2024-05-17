@@ -14,6 +14,7 @@ import jakarta.validation.Valid;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,7 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
-
+import java.security.Principal;
 import java.util.List;
 
 
@@ -40,17 +41,18 @@ public class BoardController {
 
 
 
-
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/register")
-    public void register(){
+    public void register(Principal principal, Model Model){
 
-
+        log.info(principal.getName()); //로그인 사용자 정보
     }
     @PostMapping("/register")
     public String registerPost(@Valid BoardDTO boardDTO,
                                BindingResult bindingResult,
                                RedirectAttributes redirectAttributes,
-                               @RequestParam("boardImgFile") List<MultipartFile> boardImgFileList
+                               @RequestParam("boardImgFile") List<MultipartFile> boardImgFileList,
+                               Principal principal
     ){
 
         if(bindingResult.hasErrors()){
@@ -60,6 +62,8 @@ public class BoardController {
             log.info(bindingResult.getAllErrors());
             return "redirect:/board/register";
         }
+
+        boardDTO.setWriter(principal.getName());
 
         Long bno =  boardService.register(boardDTO);
 
@@ -81,6 +85,8 @@ public class BoardController {
 //        boardList.forEach(board -> log.info(board));
 
     }
+
+
     @GetMapping({"/read", "/modify"})
     public void read(Long bno, Model model, PageRequestDTO pageRequestDTO){
 
@@ -89,6 +95,8 @@ public class BoardController {
         model.addAttribute("imgdto", boardImgService.imglist(bno));
 
     }
+
+
     @PostMapping("/modify")
     public String modify(@Valid BoardDTO boardDTO ,
                          BindingResult bindingResult,
@@ -96,6 +104,7 @@ public class BoardController {
                          PageRequestDTO pageRequestDTO,
                          Long[] ino,
                           @RequestParam("boardImgFile") List<MultipartFile> boardImgFileList
+
 
     ){
         //boardService.modify(board);
@@ -109,13 +118,20 @@ public class BoardController {
             redirectAttributes
                     .addAttribute("bno", boardDTO.getBno());
 
+
+
             return "redirect:/board/modify?"+pageRequestDTO.getLink();
         }
 
 
 
+
         boardService.modify(boardDTO);
-        boardImgService.modify(ino);
+
+
+        if (ino != null && ino.length >0){
+            boardImgService.modify(ino);
+        }
         boardImgService.register(boardDTO.getBno(), boardImgFileList);
 
         redirectAttributes.addFlashAttribute("result", boardDTO.getBno() + "글이 수정되었습니다.");

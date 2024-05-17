@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layout/basic.html}">
 <head>
     <meta charset="UTF-8">
@@ -58,10 +59,14 @@
                                 </div>
                             </div>
                         </div>
+                    <th:block sec:authorize="isAuthenticated()">
+                    <th:block th:if="${dto.writer} == ${#authentication.principal.username}">
 
                         <a th:href="|@{/board/modify(bno=${dto.bno})}&${pageRequestDTO.getLink()}|" class="btn btn-default">
                             수정
                         </a>
+                    </th:block>
+                    </th:block>
                         <a th:href="|@{/board/list}?${pageRequestDTO.getLink()}|" class="btn btn-default">
                             목록
 <!--                            <button type="button" class="btn btn-default listBtn">목록</button>-->

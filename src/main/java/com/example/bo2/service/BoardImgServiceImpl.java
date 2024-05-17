@@ -118,7 +118,7 @@ public class BoardImgServiceImpl implements BoardImgService {
     @Override
     public void modify(Long[] ino) {
 
-        log.info(Arrays.toString(ino));
+        //log.info(Arrays.toString(ino));
 
 
             for (int i = 0; i < ino.length; i++){

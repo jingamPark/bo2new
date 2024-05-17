@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h2>bbbbbbbbbbb</h2>
+
+    <h2 sec:authorize="permitAll()">누구나 로그인, 회원가입</h2>
+    <h2 sec:authorize="isAuthenticated()">로그인한사람  로그아웃</h2>
+    <h2 sec:authorize="isAnonymous()"> 로그인 안 한 사람</h2>
+    <h2 sec:authorize="hasAnyRole('ROLE_USER')">권한이 user</h2>
+    <h2 sec:authorize="hasAnyRole('ROLE_ADMIN')">권한이 admin</h2>
+
+    <h1>사용자 출력</h1>
+    <h2 sec:authentication="name"></h2>
+    <h2 sec:authentication="principal.authorities"></h2>
+
+</body>
+</html>

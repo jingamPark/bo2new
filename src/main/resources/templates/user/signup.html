@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/basic.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <h2>회원가입</h2>
+<form role="form" action="/user/signup" method="post" th:object="${secUserDTO}">
+
+    <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
+        <div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
+    </div>
+
+    <div class="form-group has-success">
+        <label class="control-label" for="username">사용자ID</label>
+        <input type="text" class="form-control" th:field="*{username}" >
+    </div>
+    <div class="form-group has-warning">
+        <label class="control-label" for="password1">패스워드</label>
+        <input type="text" class="form-control" th:field="*{password1}">
+    </div>
+    <div class="form-group has-error">
+        <label class="control-label" for="password2">패스워드 확인</label>
+        <input type="text" class="form-control" th:field="*{password2}" >
+    </div>
+    <div class="form-group has-error">
+        <label class="control-label" for="email">email</label>
+        <input type="text" class="form-control" th:field="*{email}" >
+    </div>
+
+    <button type="submit" class="btn btn-default">회원가입</button>
+</form>
+
+
+</div>
+</body>
+</html>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <head>
@@ -252,13 +253,17 @@
                         <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
-                        <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
-                        </li>
-                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
-                        </li>
+                        <li sec:authorize="isAuthenticated()"><a href="/user/profile"><i class="fa fa-user fa-fw"></i>User Profile</a></li>
+                        <li sec:authorize="isAnonymous()"><a href="/user/signup"><i class="fa fa-gear fa-fw"></i> 회원가입</a></li>
+                        <li sec:authorize="isAnonymous()"><a href="/user/idcheck"><i class="fa fa-gear fa-fw"></i> 아이디찾기</a></li>
+                        <li sec:authorize="isAnonymous()"><a href="/user/pass"><i class="fa fa-sign-out fa-fw"></i> 비밀번호 찾기</a></li>
                         <li class="divider"></li>
-                        <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
-                        </li>
+                        <li sec:authorize="isAuthenticated()"><a href="/user/logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a></li>
+                        <li sec:authorize="isAnonymous()"><a href="/user/login"><i class="fa fa-sign-out fa-fw"></i> Login</a></li>
+
+
+
+
                     </ul>
                     <!-- /.dropdown-user -->
                 </li>
@@ -281,7 +286,7 @@
                             <!-- /input-group -->
                         </li>
                         <li>
-                            <a href="index.html"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                            <a href="/board/list"><i class="fa fa-dashboard fa-fw"></i> BoardList</a>
                         </li>
                         <li>
                             <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Charts<span class="fa arrow"></span></a>

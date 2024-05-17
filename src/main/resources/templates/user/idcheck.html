@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+
+      layout:decorate="~{layout/basic.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <h2>아이디 찾기</h2>
+
+    <form action="/user/idcheck" method="post">
+
+        <div class="form-group has-success">
+
+
+            <th:block th:if="${name == null}">
+                <label   class="control-label" for="email">email</label>
+                <input name="email" type="text" class="form-control"  id="email"  placeholder="이메일형식으로 입력해주세요">
+            </th:block>
+            <th:block th:if="${name != null}">
+                <h1>[[${name}]]</h1>
+            </th:block>
+        </div>
+
+
+
+       <button type="submit" >Username 찾기</button>
+    </form>
+
+
+</div>
+</body>
+</html>
